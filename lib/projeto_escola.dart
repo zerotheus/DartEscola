@@ -43,3 +43,25 @@ void main() {
   escola.professores.add(escola.adicionaProfessor());
   print(escola.professores[0].getNome);
 }
+
+int procuraProfessor() {
+  print("informe o cpf");
+  String cpf = "cpf";
+  for (int i = 0; i < professores.length; i++) {
+    if (professores[i].getCpf == cpf) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+int procuraAluno() {
+  print("informe o cpf");
+  String cpf = "cpf";
+  for (int i = 0; i < alunos.length; i++) {
+    if (alunos[i].getCpf == cpf) {
+      return i;
+    }
+  }
+  return -1;
+}
