@@ -38,7 +38,7 @@ void main() {
   //escola.alunos.add(escola.adicionaAluno());
   //escola.alunos.add(escola.adicionaAluno());
   for (var i = 0; i < escola.retornaQuantidadeAlunos(); i++) {
-    print(escola.alunos[i].matricula);
+    print(escola.alunos[i].getMatricula);
   }
   escola.professores.add(escola.adicionaProfessor());
   print(escola.professores[0].getNome);
