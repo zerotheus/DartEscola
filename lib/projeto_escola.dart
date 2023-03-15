@@ -1,4 +1,5 @@
 import 'package:projeto_escola/aluno.dart';
+import 'package:projeto_escola/disciplinas.dart';
 import 'package:projeto_escola/pessoa_model.dart';
 import 'dart:io';
 
@@ -8,9 +9,19 @@ class Escola {
   //List<Pessoa> pessoas = List.empty(growable: true);
   List<Aluno> alunos = List.empty(growable: true);
   List<Professor> professores = List.empty(growable: true);
+  List<Disciplina> disciplinas = List.empty(growable: true);
 
   int retornaQuantidadeAlunos() {
     return alunos.length;
+  }
+
+  Disciplina adicionaDisciplina() {
+    print("Informe o codigo");
+    int codigo = int.parse(stdin.readLineSync()!);
+    print("Informe nome da Disciplina");
+    String? nomedaDisciplina = stdin.readLineSync();
+    Disciplina d = Disciplina(codigo, professores[0], nomedaDisciplina!);
+    return d;
   }
 
   Aluno adicionaAluno() {
@@ -30,6 +41,28 @@ class Escola {
     Professor a = Professor.cadastra(nome!, cpf!, 0);
     return a;
   }
+
+  int procuraProfessor() {
+    print("informe o cpf");
+    String cpf = "cpf";
+    for (int i = 0; i < professores.length; i++) {
+      if (professores[i].getCpf == cpf) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  int procuraAluno() {
+    print("informe o cpf");
+    String cpf = "cpf";
+    for (int i = 0; i < alunos.length; i++) {
+      if (alunos[i].getCpf == cpf) {
+        return i;
+      }
+    }
+    return -1;
+  }
 }
 
 void main() {
@@ -42,26 +75,5 @@ void main() {
   }
   escola.professores.add(escola.adicionaProfessor());
   print(escola.professores[0].getNome);
-}
-
-int procuraProfessor() {
-  print("informe o cpf");
-  String cpf = "cpf";
-  for (int i = 0; i < professores.length; i++) {
-    if (professores[i].getCpf == cpf) {
-      return i;
-    }
-  }
-  return -1;
-}
-
-int procuraAluno() {
-  print("informe o cpf");
-  String cpf = "cpf";
-  for (int i = 0; i < alunos.length; i++) {
-    if (alunos[i].getCpf == cpf) {
-      return i;
-    }
-  }
-  return -1;
+  escola.disciplinas.add(escola.adicionaDisciplina());
 }
