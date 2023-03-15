@@ -15,6 +15,16 @@ class Escola {
     return alunos.length;
   }
 
+  int ProcuraDisciplina() {
+    print("Informe o codigo da disciplina");
+    int codigo = int.parse(stdin.readLineSync()!);
+    for (var i = 0; i < disciplinas.length; i++) {
+      if (disciplinas[i].codigo == codigo) ;
+      return i;
+    }
+    return -1;
+  }
+
   Disciplina adicionaDisciplina() {
     print("Informe o codigo");
     int codigo = int.parse(stdin.readLineSync()!);
@@ -63,6 +73,32 @@ class Escola {
     }
     return -1;
   }
+
+  bool removeAluno() {
+    int retorno = procuraAluno();
+    if (retorno == -1) {
+      return false;
+    }
+    for (int i = retorno; i < alunos.length; i++) {
+      if (i + 1 < alunos.length) {
+        alunos[i] = alunos[i + 1];
+      }
+    }
+    return true;
+  }
+
+  bool removeProfessor() {
+    int retorno = procuraProfessor();
+    if (retorno == -1) {
+      return false;
+    }
+    for (int i = retorno; i < alunos.length; i++) {
+      if (i + 1 < alunos.length) {
+        alunos[i] = alunos[i + 1];
+      }
+    }
+    return true;
+  }
 }
 
 void main() {
@@ -76,4 +112,6 @@ void main() {
   escola.professores.add(escola.adicionaProfessor());
   print(escola.professores[0].getNome);
   escola.disciplinas.add(escola.adicionaDisciplina());
+  escola.disciplinas[0].adicionaAlunoNadisciplina(escola.alunos[0]);
+  escola.disciplinas[0].listaAlunosdaDisciplina();
 }

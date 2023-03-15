@@ -3,6 +3,15 @@ import 'package:projeto_escola/projeto_escola.dart';
 
 class Aluno extends Pessoa {
   int _matricula = 100;
+  int _contaDisciplinas = 0;
+
+  int get quantidadeDisciplinas {
+    return _contaDisciplinas;
+  }
+
+  void aumentadisciplinas() {
+    _contaDisciplinas++;
+  }
 
   int get getMatricula => _matricula;
 
