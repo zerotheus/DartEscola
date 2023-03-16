@@ -1,7 +1,11 @@
+import 'dart:ffi';
+
 abstract class Pessoa {
   String _nome = "sem nome";
   String _cpf = "00000000000";
   late Pessoa _funcao;
+  //Char _sexo;
+  //int dia, mes, ano;
 
   Pessoa(String nome, String cpf) {
     _nome = nome;
