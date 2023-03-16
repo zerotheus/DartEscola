@@ -78,6 +78,7 @@ class Escola {
   }
 
   int procuraProfessor() {
+    //transformar em buscaBinaria aqui tbm
     print("informe o cpf");
     String cpf = "cpf";
     for (int i = 0; i < professores.length; i++) {
@@ -89,9 +90,12 @@ class Escola {
   }
 
   int procuraAluno() {
+    //transformar em buscaBinaria
     print("informe o cpf");
-    String cpf = "cpf";
+    String cpf = 'aaa';
     for (int i = 0; i < alunos.length; i++) {
+      print(alunos[i].getCpf == cpf);
+      print(i);
       if (alunos[i].getCpf == cpf) {
         return i;
       }
@@ -99,12 +103,12 @@ class Escola {
     return -1;
   }
 
-  bool removeAluno(Escola escola) {
+  bool removeAluno(List<Pessoa> a) {
     int retorno = procuraAluno();
     if (retorno == -1) {
       return false;
     }
-    escola.alunos.removeAt(retorno);
+    a.removeAt(retorno);
     return true;
   }
 
@@ -121,10 +125,10 @@ class Escola {
 void main() {
   Escola escola = Escola();
   escola.alunos.add(escola.adicionaAluno());
+  escola.alunos.add(escola.adicionaAluno());
 
   // print(escola.alunos[0].runtimeType);
 
-  //escola.alunos.add(escola.adicionaAluno());
   //escola.alunos.add(escola.adicionaAluno());
   for (var i = 0; i < escola.alunos.length; i++) {
     print(escola.alunos[i].getNome);
@@ -135,4 +139,9 @@ void main() {
   escola.disciplinas[0].adicionaAlunoNadisciplina(
       escola.alunos[0] as Aluno); // assim que se faz um downcast
   escola.disciplinas[0].listaAlunosdaDisciplina();
+
+  print(escola.removeAluno(escola.alunos));
+  for (var i = 0; i < escola.alunos.length; i++) {
+    print(escola.alunos[i].getNome);
+  }
 }
