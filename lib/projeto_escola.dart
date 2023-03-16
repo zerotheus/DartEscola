@@ -77,22 +77,11 @@ class Escola {
     return a;
   }
 
-  int procuraProfessor() {
-    print("informe o cpf");
-    String cpf = "cpf";
-    for (int i = 0; i < professores.length; i++) {
-      if (professores[i].getCpf == cpf) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  int procuraAluno() {
+  int procuraPessoa(List<Pessoa> p) {
     print("informe o cpf");
     String cpf = 'aaa';
-    for (int i = 0; i < alunos.length; i++) {
-      if (alunos[i].getCpf == cpf) {
+    for (int i = 0; i < p.length; i++) {
+      if (p[i].getCpf == cpf) {
         return i;
       }
     }
@@ -100,7 +89,7 @@ class Escola {
   }
 
   bool removeAluno(List<Pessoa> a) {
-    int retorno = procuraAluno();
+    int retorno = procuraPessoa(a);
     if (retorno == -1) {
       return false;
     }
@@ -109,7 +98,7 @@ class Escola {
   }
 
   bool removeProfessor(List<Pessoa> p) {
-    int retorno = procuraProfessor();
+    int retorno = procuraPessoa(p);
     if (retorno == -1) {
       return false;
     }
