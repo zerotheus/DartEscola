@@ -15,10 +15,10 @@ class Aluno extends Pessoa {
 
   int get getMatricula => _matricula;
 
-  Aluno(String nome, String cpf) : super(nome, cpf) {}
+  Aluno(String nome, String cpf) : super(nome, cpf, 0) {}
 
   Aluno.matricula(String nome, String cpf, int finalMatricula)
-      : super(nome, cpf) {
+      : super(nome, cpf, 0) {
     this._matricula += finalMatricula;
   }
 

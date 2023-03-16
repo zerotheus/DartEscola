@@ -3,14 +3,12 @@ import 'package:projeto_escola/pessoa_model.dart';
 class Professor extends Pessoa {
   int matricula = 10000;
 
-  Professor(super.nome, super.cpf);
-  Professor.cadastra(String nome, String cpf, int finalMatricula)
-      : super(nome, cpf) {
+  Professor(String nome, String cpf, int finalMatricula) : super(nome, cpf, 1) {
     this.matricula += finalMatricula;
   }
 
+  @override
   Pessoa matriculaPessoa(String nome, String cpf, int finalMatricula) {
-    Professor p = Professor.cadastra(nome, cpf, finalMatricula);
-    return p;
+    throw UnimplementedError();
   }
 }

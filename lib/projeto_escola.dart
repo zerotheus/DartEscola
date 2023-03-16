@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:projeto_escola/professor.dart';
 
 class Escola {
-  //List<Pessoa> pessoas = List.empty(growable: true);
+  List<Pessoa> pessoas = List.empty(growable: true);
   List<Pessoa> alunos = List.empty(growable: true);
   List<Pessoa> professores = List.empty(growable: true);
   List<Disciplina> disciplinas = List.empty(growable: true);
@@ -50,31 +50,28 @@ class Escola {
     }
   }
 
+  Pessoa adicionaProfessor(String nome, String cpf) {
+    Pessoa p = Professor(nome, cpf, 0);
+    return p;
+  }
+
+  Aluno adicionaAluno(String nome, String cpf) {
+    Aluno a = Aluno.matricula(nome, cpf, retornaQuantidadeAlunos());
+    return a;
+  }
+
   Pessoa adicionaPessoa(int tipo) {
-    print("digite o nome");
-    String? nome = stdin.readLineSync();
-    print("informe o cpf");
-    String? cpf = stdin.readLineSync();
-    Aluno a = Aluno.matricula(nome!, cpf!, retornaQuantidadeAlunos());
-    return a;
-  }
-
-  Aluno adicionaAluno() {
-    print("digite o nome");
-    String? nome = stdin.readLineSync();
-    print("informe o cpf");
-    String? cpf = stdin.readLineSync();
-    Aluno a = Aluno.matricula(nome!, cpf!, retornaQuantidadeAlunos());
-    return a;
-  }
-
-  Professor adicionaProfessor() {
     print("digite o nome p");
     String? nome = stdin.readLineSync();
     print("informe o cpf p");
     String? cpf = stdin.readLineSync();
-    Professor a = Professor.cadastra(nome!, cpf!, 0);
-    return a;
+    if (tipo == 0) {
+      return adicionaAluno(nome!, cpf!);
+    }
+    if (tipo == 1) {
+      return adicionaProfessor(nome!, cpf!);
+    }
+    throw Exception();
   }
 
   int procuraPessoa(List<Pessoa> p) {
@@ -88,28 +85,36 @@ class Escola {
     return -1;
   }
 
-  bool removeAluno(List<Pessoa> a) {
-    int retorno = procuraPessoa(a);
-    if (retorno == -1) {
-      return false;
-    }
-    a.removeAt(retorno);
-    return true;
-  }
-
-  bool removeProfessor(List<Pessoa> p) {
+  bool removePessoa(List<Pessoa> p) {
     int retorno = procuraPessoa(p);
     if (retorno == -1) {
       return false;
     }
+    p.removeAt(retorno);
     return true;
+  }
+
+  bool editaPessoa(List<Pessoa> p) {
+    int retorno = procuraPessoa(p);
+    if (retorno == -1) {
+      return false;
+    }
+    p[retorno] = adicionaPessoa(p[retorno].funcao);
+    return true;
+  }
+
+  void listaPessoas(List<Pessoa> p) {
+    for (int i = 0; i < p.length; i++) {
+      print(p[i].getNome);
+      print(p[i].getCpf);
+    }
   }
 }
 
 void main() {
   Escola escola = Escola();
-  escola.alunos.add(escola.adicionaAluno());
-  escola.alunos.add(escola.adicionaAluno());
+  escola.alunos.add(escola.adicionaPessoa(0));
+  escola.alunos.add(escola.adicionaPessoa(0));
 
   // print(escola.alunos[0].runtimeType);
 
@@ -117,14 +122,14 @@ void main() {
   for (var i = 0; i < escola.alunos.length; i++) {
     print(escola.alunos[i].getNome);
   }
-  escola.professores.add(escola.adicionaProfessor());
+  escola.professores.add(escola.adicionaPessoa(1));
   print(escola.professores[0].getNome);
   escola.disciplinas.add(escola.adicionaDisciplina());
   escola.disciplinas[0].adicionaAlunoNadisciplina(
       escola.alunos[0] as Aluno); // assim que se faz um downcast
   escola.disciplinas[0].listaAlunosdaDisciplina();
 
-  print(escola.removeAluno(escola.alunos));
+  print(escola.removePessoa(escola.alunos));
   for (var i = 0; i < escola.alunos.length; i++) {
     print(escola.alunos[i].getNome);
   }
