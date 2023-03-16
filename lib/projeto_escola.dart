@@ -78,7 +78,6 @@ class Escola {
   }
 
   int procuraProfessor() {
-    //transformar em buscaBinaria aqui tbm
     print("informe o cpf");
     String cpf = "cpf";
     for (int i = 0; i < professores.length; i++) {
@@ -90,12 +89,9 @@ class Escola {
   }
 
   int procuraAluno() {
-    //transformar em buscaBinaria
     print("informe o cpf");
     String cpf = 'aaa';
     for (int i = 0; i < alunos.length; i++) {
-      print(alunos[i].getCpf == cpf);
-      print(i);
       if (alunos[i].getCpf == cpf) {
         return i;
       }
@@ -112,12 +108,11 @@ class Escola {
     return true;
   }
 
-  bool removeProfessor(Escola escola) {
+  bool removeProfessor(List<Pessoa> p) {
     int retorno = procuraProfessor();
     if (retorno == -1) {
       return false;
     }
-    escola.professores.removeAt(retorno);
     return true;
   }
 }
