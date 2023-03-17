@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:projeto_escola/professor.dart';
 
 class Escola {
-  //List<Pessoa> pessoas = List.empty(growable: true);
+  List<Pessoa> pessoas = List.empty(growable: true);
   List<Pessoa> alunos = List.empty(growable: true);
   List<Pessoa> professores = List.empty(growable: true);
   List<Disciplina> disciplinas = List.empty(growable: true);
@@ -16,7 +16,7 @@ class Escola {
     return alunos.length;
   }
 
-  int ProcuraDisciplina() {
+  int procuraDisciplina() {
     print("Informe o codigo da disciplina");
     int codigo = int.parse(stdin.readLineSync()!);
     for (int i = 0; i < disciplinas.length; i++) {
@@ -32,54 +32,70 @@ class Escola {
     int codigo = int.parse(stdin.readLineSync()!);
     print("Informe nome da Disciplina");
     String? nomedaDisciplina = stdin.readLineSync();
+    print("Informe o professor da disiciplina");
+    procuraPessoa(this.professores);
     Disciplina d =
         Disciplina(codigo, professores[0] as Professor, nomedaDisciplina!);
     return d;
   }
 
-  void cadastraPessoa(Escola escola) {
+  void cadastros() {
     int retorno = 5;
     while (retorno != 0) {
       retorno = menuCadastro();
-      if (retorno == 1) {
-        escola.alunos.add(adicionaPessoa(0));
-      }
-      if (retorno == 2) {
-        escola.professores.add(adicionaPessoa(1));
+      try {
+        if (retorno == 1) {
+          final Pessoa p = adicionaPessoa(0);
+          alunos.add(p);
+          pessoas.add(p);
+          continue;
+        }
+        if (retorno == 2) {
+          final Pessoa p = adicionaPessoa(1);
+          professores.add(p);
+          pessoas.add(p);
+          continue;
+        }
+        if (retorno == 3) {
+          CadastroDisciplina();
+        }
+      } catch (e) {
+        print("Error no cadastro");
       }
     }
+  }
+
+  Pessoa adicionaProfessor(String nome, String cpf) {
+    Pessoa p = Professor(nome, cpf, 0);
+    return p;
+  }
+
+  Aluno adicionaAluno(String nome, String cpf) {
+    Aluno a = Aluno.matricula(nome, cpf, retornaQuantidadeAlunos());
+    return a;
   }
 
   Pessoa adicionaPessoa(int tipo) {
     print("digite o nome");
     String? nome = stdin.readLineSync();
     print("informe o cpf");
-    String? cpf = stdin.readLineSync();
-    Aluno a = Aluno.matricula(nome!, cpf!, retornaQuantidadeAlunos());
-    return a;
-  }
-
-  Aluno adicionaAluno() {
-    print("digite o nome");
-    String? nome = stdin.readLineSync();
-    print("informe o cpf");
-    String? cpf = stdin.readLineSync();
-    Aluno a = Aluno.matricula(nome!, cpf!, retornaQuantidadeAlunos());
-    return a;
-  }
-
-  Professor adicionaProfessor() {
-    print("digite o nome p");
-    String? nome = stdin.readLineSync();
-    print("informe o cpf p");
-    String? cpf = stdin.readLineSync();
-    Professor a = Professor.cadastra(nome!, cpf!, 0);
-    return a;
+    try {
+      String? cpf = stdin.readLineSync();
+      if (tipo == 0) {
+        return adicionaAluno(nome!, cpf!);
+      }
+      if (tipo == 1) {
+        return adicionaProfessor(nome!, cpf!);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    throw Exception();
   }
 
   int procuraPessoa(List<Pessoa> p) {
     print("informe o cpf");
-    String cpf = 'aaa';
+    String? cpf = stdin.readLineSync();
     for (int i = 0; i < p.length; i++) {
       if (p[i].getCpf == cpf) {
         return i;
@@ -88,44 +104,110 @@ class Escola {
     return -1;
   }
 
-  bool removeAluno(List<Pessoa> a) {
-    int retorno = procuraPessoa(a);
-    if (retorno == -1) {
-      return false;
-    }
-    a.removeAt(retorno);
-    return true;
-  }
-
-  bool removeProfessor(List<Pessoa> p) {
+  bool removePessoa(List<Pessoa> p) {
     int retorno = procuraPessoa(p);
     if (retorno == -1) {
       return false;
     }
+    p.removeAt(retorno);
     return true;
+  }
+
+  bool editaPessoa(List<Pessoa> p) {
+    int retorno = procuraPessoa(p);
+    if (retorno == -1) {
+      return false;
+    }
+    p[retorno] = adicionaPessoa(p[retorno].funcao);
+    return true;
+  }
+
+  void editar() {
+    int retorno = 1;
+    while (retorno != 0) {
+      retorno = menuEdita();
+      if (retorno == 1) {
+        editaPessoa(alunos);
+        continue;
+      }
+      if (retorno == 2) {
+        editaPessoa(professores);
+        continue;
+      }
+      if (retorno == 3) {
+        continue;
+      }
+      return;
+    }
+  }
+
+  void listagem() {
+    int retorno = 1;
+    while (retorno != 0) {
+      retorno = menuListar();
+      if (retorno == 1) {
+        listaPessoas(alunos);
+        continue;
+      }
+      if (retorno == 2) {
+        listaPessoas(professores);
+        continue;
+      }
+      if (retorno == 3) {
+        continue;
+      }
+      return;
+    }
+  }
+
+  void remover() {
+    int retorno = 1;
+    while (retorno != 0) {
+      retorno = menuRemove();
+      if (retorno == 1) {
+        removePessoa(this.alunos);
+        continue;
+      }
+      if (retorno == 2) {
+        removePessoa(this.professores);
+        continue;
+      }
+      return;
+    }
+  }
+
+  void listaPessoas(List<Pessoa> p) {
+    for (int i = 0; i < p.length; i++) {
+      print(p[i].getNome);
+      print(p[i].getCpf);
+    }
+  }
+
+  void CadastroDisciplina() {
+    disciplinas.add(adicionaDisciplina());
   }
 }
 
 void main() {
   Escola escola = Escola();
-  escola.alunos.add(escola.adicionaAluno());
-  escola.alunos.add(escola.adicionaAluno());
-
-  // print(escola.alunos[0].runtimeType);
-
-  //escola.alunos.add(escola.adicionaAluno());
-  for (var i = 0; i < escola.alunos.length; i++) {
-    print(escola.alunos[i].getNome);
-  }
-  escola.professores.add(escola.adicionaProfessor());
-  print(escola.professores[0].getNome);
-  escola.disciplinas.add(escola.adicionaDisciplina());
-  escola.disciplinas[0].adicionaAlunoNadisciplina(
-      escola.alunos[0] as Aluno); // assim que se faz um downcast
-  escola.disciplinas[0].listaAlunosdaDisciplina();
-
-  print(escola.removeAluno(escola.alunos));
-  for (var i = 0; i < escola.alunos.length; i++) {
-    print(escola.alunos[i].getNome);
+  int retorno = 1;
+  while (retorno != 0) {
+    retorno = menuInciar();
+    if (retorno == 1) {
+      escola.cadastros();
+      continue;
+    }
+    if (retorno == 2) {
+      escola.editar();
+      continue;
+    }
+    if (retorno == 3) {
+      escola.remover();
+      continue;
+    }
+    if (retorno == 4) {
+      escola.listagem();
+      continue;
+    }
   }
 }
