@@ -8,12 +8,17 @@ abstract class Pessoa {
   //int dia, mes, ano;
 
   Pessoa(String nome, String cpf, int funcao) {
-    _nome = nome;
-    _cpf = cpf;
+    this.setNome = nome;
+    //_cpf = cpf;
+    this.setCpf = cpf;
     _funcao = funcao;
   }
 
   set setNome(String nome) {
+    RegExp regex = RegExp(r'[0-9]');
+    if (regex.hasMatch(nome)) {
+      throw "Nomes nao contem numeros";
+    }
     _nome = nome;
   }
 
@@ -22,6 +27,10 @@ abstract class Pessoa {
   }
 
   set setCpf(String cpf) {
+    RegExp regex = RegExp(r'[0-9]');
+    if (!regex.hasMatch(cpf)) {
+      throw "cpf contem somente numeros";
+    }
     _cpf = cpf;
   }
 
