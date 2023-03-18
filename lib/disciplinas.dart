@@ -8,16 +8,30 @@ class Disciplina {
   List<Aluno> _alunos = List.empty(growable: true);
 
   Disciplina(int codigo, Professor professor, String nomedaDisciplina) {
-    _professor = professor;
+    this.setProfessor = professor;
     this.codigo = codigo;
     _nomedaDisciplina = nomedaDisciplina;
+  }
+
+  String get getNome {
+    return _nomedaDisciplina;
   }
 
   void adicionaAlunoNadisciplina(Aluno a) {
     _alunos.add(a);
   }
 
-  void trocaProfessor(Professor p) {}
+  void removeAlunodaDisciplina(String cpf) {
+    for (int i = 0; i < _alunos.length; i++) {
+      if (_alunos[i].getCpf == cpf) {
+        _alunos.removeAt(i);
+        return;
+      }
+    }
+    throw "Aluno nao encontrado";
+  }
+
+  set setProfessor(Professor p) {}
 
   void listaAlunosdaDisciplina() {
     for (var i = 0; i < _alunos.length; i++) {

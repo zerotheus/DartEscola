@@ -1,3 +1,5 @@
+import 'dart:indexed_db';
+
 import 'package:projeto_escola/aluno.dart';
 import 'package:projeto_escola/disciplinas.dart';
 import 'package:projeto_escola/escola_menus.dart';
@@ -12,8 +14,9 @@ class Escola {
   List<Pessoa> professores = List.empty(growable: true);
   List<Disciplina> disciplinas = List.empty(growable: true);
 
-  int retornaQuantidadeAlunos() {
-    return alunos.length;
+  int finalMatriculaAlunos() {
+    final Aluno a = alunos.last as Aluno;
+    return a.getMatricula % 100 + 1;
   }
 
   int procuraDisciplina() {
@@ -27,15 +30,43 @@ class Escola {
     return -1;
   }
 
+  void listaDisciplinas() {
+    for (int i = 0; i < disciplinas.length; i++) {
+      print(disciplinas[i].getNome);
+      print(disciplinas[i].codigo);
+    }
+  }
+
+  bool removeDisciplina() {
+    final int index = procuraDisciplina();
+    if (index < 0) {
+      throw "Disciplina nao encontrada";
+    }
+    disciplinas.removeAt(index);
+    return true;
+  }
+
+  void editaDisciplina() {
+    final int index = procuraDisciplina();
+    if (index < 0) {
+      throw "Disciplina nao encontrada";
+    }
+    Disciplina d = adicionaDisciplina();
+    disciplinas[index] = d;
+  }
+
   Disciplina adicionaDisciplina() {
     print("Informe o codigo");
     int codigo = int.parse(stdin.readLineSync()!);
     print("Informe nome da Disciplina");
     String? nomedaDisciplina = stdin.readLineSync();
     print("Informe o professor da disiciplina");
-    procuraPessoa(this.professores);
+    final int index = procuraPessoa(this.professores);
+    if (index < 0) {
+      throw "Professor nao encontrado";
+    }
     Disciplina d =
-        Disciplina(codigo, professores[0] as Professor, nomedaDisciplina!);
+        Disciplina(codigo, professores[index] as Professor, nomedaDisciplina!);
     return d;
   }
 
@@ -59,6 +90,12 @@ class Escola {
         if (retorno == 3) {
           CadastroDisciplina();
         }
+        if (retorno == 4) {
+          final int indexDisciplina = procuraDisciplina();
+          final int indexAluno = procuraPessoa(alunos);
+          disciplinas[indexDisciplina]
+              .adicionaAlunoNadisciplina(alunos[indexAluno] as Aluno);
+        }
       } catch (e) {
         print("Error no cadastro");
       }
@@ -71,7 +108,7 @@ class Escola {
   }
 
   Aluno adicionaAluno(String nome, String cpf) {
-    Aluno a = Aluno.matricula(nome, cpf, retornaQuantidadeAlunos());
+    Aluno a = Aluno.matricula(nome, cpf, finalMatriculaAlunos());
     return a;
   }
 
@@ -135,6 +172,7 @@ class Escola {
         continue;
       }
       if (retorno == 3) {
+        editaDisciplina();
         continue;
       }
       return;
@@ -154,7 +192,12 @@ class Escola {
         continue;
       }
       if (retorno == 3) {
+        listaDisciplinas();
         continue;
+      }
+      if (retorno == 4) {
+        final int indexDisciplina = procuraDisciplina();
+        disciplinas[indexDisciplina].listaAlunosdaDisciplina();
       }
       return;
     }
@@ -171,6 +214,18 @@ class Escola {
       if (retorno == 2) {
         removePessoa(this.professores);
         continue;
+      }
+      if (retorno == 3) {
+        removeDisciplina();
+      }
+      if (retorno == 4) {
+        final int indexDisciplina = procuraDisciplina();
+        if (indexDisciplina < 0) {
+          throw "Disciplina nao encontrada";
+        }
+        final int indexAluno = procuraPessoa(alunos);
+        disciplinas[indexDisciplina]
+            .removeAlunodaDisciplina(alunos[indexAluno].getCpf);
       }
       return;
     }

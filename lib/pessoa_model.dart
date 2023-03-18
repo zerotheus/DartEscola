@@ -9,7 +9,6 @@ abstract class Pessoa {
 
   Pessoa(String nome, String cpf, int funcao) {
     this.setNome = nome;
-    //_cpf = cpf;
     this.setCpf = cpf;
     _funcao = funcao;
   }

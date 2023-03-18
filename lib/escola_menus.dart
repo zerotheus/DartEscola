@@ -15,6 +15,7 @@ int menuCadastro() {
   print("1. Cadastro Aluno");
   print("2. Cadastro professor");
   print("3. Cadastrar Disciplina");
+  print("4. Cadastrar aluno na disciplina");
   print("0. Voltar");
   final int escolha;
   escolha = int.parse(stdin.readLineSync()!);
@@ -35,6 +36,7 @@ int menuRemove() {
   print("1. Remover aluno");
   print("2. Remover professor");
   print("3. Remover disciplina");
+  print("4. Remover aluno da disciplina");
   print("0. Voltar");
 
   final int escolha;
@@ -46,7 +48,8 @@ int menuListar() {
   print("1. Listar aluno");
   print("2. Listar professor");
   print("3. Listar disciplina");
-  print("4. Listar todos");
+  print("4. Listar todas as pessoas");
+  print("5. Listar todos alunos de uma disciplina");
   print("0. Voltar");
   final int escolha;
   escolha = int.parse(stdin.readLineSync()!);
