@@ -31,6 +31,15 @@ class Escola {
     return -1;
   }
 
+  void editaDisciplina(Disciplina disciplina) {
+    print("Informe o codigo");
+    final int codigo = int.parse(stdin.readLineSync()!);
+    print("Informe nome da Disciplina");
+    final String? nomedaDisciplina = stdin.readLineSync();
+    disciplina.setCodigo = codigo;
+    disciplina.setNomeDisciplina = nomedaDisciplina!;
+  }
+
   Disciplina adicionaDisciplina() {
     print("Informe o codigo");
     int codigo = int.parse(stdin.readLineSync()!);
@@ -171,6 +180,11 @@ class Escola {
         continue;
       }
       if (retorno == 3) {
+        final int indexDisciplina = procuraDisciplina();
+        if (indexDisciplina < 0) {
+          throw "disciplina nao encontrada";
+        }
+        editaDisciplina(disciplinas[indexDisciplina]);
         continue;
       }
       return;

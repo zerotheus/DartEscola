@@ -19,6 +19,14 @@ class Disciplina {
     return _nomedaDisciplina;
   }
 
+  set setNomeDisciplina(String nome) {
+    _nomedaDisciplina = nome;
+  }
+
+  set setCodigo(int codigo) {
+    this.codigo = codigo;
+  }
+
   void adicionaAlunoNadisciplina(Aluno a) {
     _alunos.add(a);
   }
