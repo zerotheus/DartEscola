@@ -4,7 +4,7 @@ class Professor extends Pessoa {
   int matricula = 10000;
 
   Professor(String nome, String cpf, int finalMatricula) : super(nome, cpf, 1) {
-    this.matricula += finalMatricula;
+    matricula += finalMatricula;
   }
 
   @override

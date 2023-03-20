@@ -4,12 +4,14 @@ import 'package:projeto_escola/professor.dart';
 class Disciplina {
   int codigo = 0;
   String _nomedaDisciplina = "Sem nome";
+  // ignore: unused_field
   late Professor _professor;
+  // ignore: prefer_final_fields
   List<Aluno> _alunos = List.empty(growable: true);
 
   Disciplina(int codigo, Professor professor, String nomedaDisciplina) {
-    this.setProfessor = professor;
-    this.codigo = codigo;
+    setProfessor = professor;
+    codigo = codigo;
     _nomedaDisciplina = nomedaDisciplina;
   }
 

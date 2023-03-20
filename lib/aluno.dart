@@ -1,5 +1,4 @@
 import 'package:projeto_escola/pessoa_model.dart';
-import 'package:projeto_escola/projeto_escola.dart';
 
 class Aluno extends Pessoa {
   int _matricula = 100;
@@ -15,11 +14,11 @@ class Aluno extends Pessoa {
 
   int get getMatricula => _matricula;
 
-  Aluno(String nome, String cpf) : super(nome, cpf, 0) {}
+  Aluno(String nome, String cpf) : super(nome, cpf, 0);
 
   Aluno.matricula(String nome, String cpf, int finalMatricula)
       : super(nome, cpf, 0) {
-    this._matricula += finalMatricula;
+    _matricula += finalMatricula;
   }
 
   @override

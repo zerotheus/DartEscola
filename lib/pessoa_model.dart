@@ -8,8 +8,8 @@ abstract class Pessoa {
   //int dia, mes, ano;
 
   Pessoa(String nome, String cpf, int funcao) {
-    this.setNome = nome;
-    this.setCpf = cpf;
+    setNome = nome;
+    setCpf = cpf;
     _funcao = funcao;
   }
 

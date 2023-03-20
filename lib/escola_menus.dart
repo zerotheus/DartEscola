@@ -8,6 +8,10 @@ int menuInciar() {
   print("4. listar");
   print("0. finalizar");
   escolha = int.parse(stdin.readLineSync()!);
+  if (escolha.isNaN) {
+    print("Por favor digite um numero");
+    return menuInciar();
+  }
   return escolha;
 }
 
@@ -19,6 +23,10 @@ int menuCadastro() {
   print("0. Voltar");
   final int escolha;
   escolha = int.parse(stdin.readLineSync()!);
+  if (escolha.isNaN) {
+    print("Por favor digite um numero");
+    return menuCadastro();
+  }
   return escolha;
 }
 
@@ -29,6 +37,10 @@ int menuEdita() {
   print("0. Voltar");
   final int escolha;
   escolha = int.parse(stdin.readLineSync()!);
+  if (escolha.isNaN) {
+    print("Por favor digite um numero");
+    return menuEdita();
+  }
   return escolha;
 }
 
@@ -41,6 +53,11 @@ int menuRemove() {
 
   final int escolha;
   escolha = int.parse(stdin.readLineSync()!);
+  if (escolha.isNaN) {
+    print("Por favor digite um numero");
+    return menuRemove();
+  }
+
   return escolha;
 }
 
@@ -53,5 +70,9 @@ int menuListar() {
   print("0. Voltar");
   final int escolha;
   escolha = int.parse(stdin.readLineSync()!);
+  if (escolha.isNaN) {
+    print("Por favor digite um numero");
+    return menuListar();
+  }
   return escolha;
 }

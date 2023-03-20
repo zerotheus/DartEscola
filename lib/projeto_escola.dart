@@ -1,5 +1,3 @@
-import 'dart:indexed_db';
-
 import 'package:projeto_escola/aluno.dart';
 import 'package:projeto_escola/disciplinas.dart';
 import 'package:projeto_escola/escola_menus.dart';
@@ -15,8 +13,11 @@ class Escola {
   List<Disciplina> disciplinas = List.empty(growable: true);
 
   int finalMatriculaAlunos() {
-    final Aluno a = alunos.last as Aluno;
-    return a.getMatricula % 100 + 1;
+    return alunos.length;
+  }
+
+  void cadastraDisciplina() {
+    disciplinas.add(adicionaDisciplina());
   }
 
   int procuraDisciplina() {
@@ -28,6 +29,21 @@ class Escola {
       }
     }
     return -1;
+  }
+
+  Disciplina adicionaDisciplina() {
+    print("Informe o codigo");
+    int codigo = int.parse(stdin.readLineSync()!);
+    print("Informe nome da Disciplina");
+    String? nomedaDisciplina = stdin.readLineSync();
+    print("Informe o professor da disiciplina");
+    int index = procuraPessoa(professores);
+    if (index == -1) {
+      throw "Professor nao encontrado, por favor verifique o cpf";
+    }
+    Disciplina d =
+        Disciplina(codigo, professores[index] as Professor, nomedaDisciplina!);
+    return d;
   }
 
   void listaDisciplinas() {
@@ -44,30 +60,6 @@ class Escola {
     }
     disciplinas.removeAt(index);
     return true;
-  }
-
-  void editaDisciplina() {
-    final int index = procuraDisciplina();
-    if (index < 0) {
-      throw "Disciplina nao encontrada";
-    }
-    Disciplina d = adicionaDisciplina();
-    disciplinas[index] = d;
-  }
-
-  Disciplina adicionaDisciplina() {
-    print("Informe o codigo");
-    int codigo = int.parse(stdin.readLineSync()!);
-    print("Informe nome da Disciplina");
-    String? nomedaDisciplina = stdin.readLineSync();
-    print("Informe o professor da disiciplina");
-    final int index = procuraPessoa(this.professores);
-    if (index < 0) {
-      throw "Professor nao encontrado";
-    }
-    Disciplina d =
-        Disciplina(codigo, professores[index] as Professor, nomedaDisciplina!);
-    return d;
   }
 
   void cadastros() {
@@ -88,15 +80,22 @@ class Escola {
           continue;
         }
         if (retorno == 3) {
-          CadastroDisciplina();
+          cadastraDisciplina();
         }
         if (retorno == 4) {
-          final int indexDisciplina = procuraDisciplina();
-          final int indexAluno = procuraPessoa(alunos);
-          disciplinas[indexDisciplina]
-              .adicionaAlunoNadisciplina(alunos[indexAluno] as Aluno);
+          final int indexdisciplina = procuraDisciplina();
+          if (indexdisciplina < 0) {
+            throw "disciplina nao encontrada";
+          }
+          final int indexAlunoaSerAdicionado = procuraPessoa(alunos);
+          if (indexAlunoaSerAdicionado < 0) {
+            throw "Aluno nao encontrado";
+          }
+          disciplinas[indexdisciplina].adicionaAlunoNadisciplina(
+              alunos[indexAlunoaSerAdicionado] as Aluno);
         }
       } catch (e) {
+        print(e.toString());
         print("Error no cadastro");
       }
     }
@@ -172,7 +171,6 @@ class Escola {
         continue;
       }
       if (retorno == 3) {
-        editaDisciplina();
         continue;
       }
       return;
@@ -196,8 +194,16 @@ class Escola {
         continue;
       }
       if (retorno == 4) {
+        listaPessoas(pessoas);
+        continue;
+      }
+      if (retorno == 5) {
         final int indexDisciplina = procuraDisciplina();
+        if (indexDisciplina < 0) {
+          throw "Disciplina nao encontrada";
+        }
         disciplinas[indexDisciplina].listaAlunosdaDisciplina();
+        continue;
       }
       return;
     }
@@ -208,11 +214,11 @@ class Escola {
     while (retorno != 0) {
       retorno = menuRemove();
       if (retorno == 1) {
-        removePessoa(this.alunos);
+        removePessoa(alunos);
         continue;
       }
       if (retorno == 2) {
-        removePessoa(this.professores);
+        removePessoa(professores);
         continue;
       }
       if (retorno == 3) {
@@ -236,10 +242,6 @@ class Escola {
       print(p[i].getNome);
       print(p[i].getCpf);
     }
-  }
-
-  void CadastroDisciplina() {
-    disciplinas.add(adicionaDisciplina());
   }
 }
 
